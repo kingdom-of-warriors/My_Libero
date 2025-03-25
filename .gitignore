@@ -29,3 +29,6 @@ video*/
 *.mov
 *.wmv
 *.mkv
+
+# 数据集相关
+demonstration_data/

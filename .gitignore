@@ -1,0 +1,31 @@
+*~
+.hydra
+*pyc
+datasets
+results
+outputs/*
+/MUJOCO_LOG.TXT
+wandb
+experiments/
+experiments_saved/
+clip/
+gpt/
+bert/
+logs/
+
+*.mp4
+libero.egg-info/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+dist/
+build/
+
+# 视频相关
+video*/
+*.avi
+*.mov
+*.wmv
+*.mkv

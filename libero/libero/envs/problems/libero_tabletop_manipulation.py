@@ -36,7 +36,7 @@ class Libero_Tabletop_Manipulation(BDDLBaseDomain):
                     }
                 }
             )
-        print("kwargs_scene_xml", kwargs["scene_xml"]) # 需要删除  
+        # print("kwargs_scene_xml", kwargs["scene_xml"]) # 需要删除  
         super().__init__(bddl_file_name, *args, **kwargs)
 
     def _load_fixtures_in_arena(self, mujoco_arena):

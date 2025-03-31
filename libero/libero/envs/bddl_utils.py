@@ -2,6 +2,10 @@ from bddl.parsing import *
 
 import itertools
 import numpy as np
+import random
+import copy
+import numpy as np
+import re
 
 pi = np.pi
 
@@ -155,7 +159,7 @@ def robosuite_parse_problem(problem_filename):
                 package_predicates(group[1], goal_state, "", "goals")
             else:
                 print("%s is not recognized in problem" % t)
-        return {
+        config = {
             "problem_name": problem_name,
             "fixtures": fixtures,
             "regions": regions,
@@ -166,7 +170,80 @@ def robosuite_parse_problem(problem_filename):
             "language_instruction": language_instruction,
             "obj_of_interest": obj_of_interest,
         }
+        print("config", config)
+        return config
     else:
         raise Exception(
             f"Problem {behavior_activity} {activity_definition} does not match problem pattern"
         )
+
+
+def modify_initial_state(bddl_config, offset=0.03, protected_objects=None):
+    """
+    修改BDDL配置，为物品的初始位置添加随机偏移，保持区域大小不变
+    
+    Args:
+        bddl_config: 完整的BDDL配置字典
+        protected_objects: 不需要修改位置的物品列表
+        offset: 随机偏移的最大值
+    
+    Returns:
+        修改后的BDDL配置字典
+    """
+    if protected_objects is None:
+        protected_objects = []
+    
+    # 深拷贝配置以避免修改原始数据
+    config = copy.deepcopy(bddl_config)
+    
+    # 修改regions中的位置信息
+    for region_name, region_info in config['regions'].items():
+        # 跳过不包含ranges的区域或特殊区域
+        if not region_info['ranges'] or region_name.endswith('_contain_region'):
+            continue
+            
+        # 检查是否有物体在此区域且在protected_objects中
+        skip_region = False
+        for state in config['initial_state']:
+            if isinstance(state, list) and len(state) >= 3:
+                if state[0].lower() == 'on' and state[2] == region_name and state[1] in protected_objects:
+                    skip_region = True
+                    break
+                
+        if skip_region:
+            continue
+            
+        # 为区域的每个范围添加随机偏移，保持区域大小不变
+        for i, range_coords in enumerate(region_info['ranges']):
+            # 确保range_coords是列表而不是浮点数
+            if not isinstance(range_coords, list):
+                continue
+                
+            # 确保有4个坐标值
+            if len(range_coords) != 4:
+                continue
+                
+            # 假设格式为 [x_min, y_min, x_max, y_max]
+            x_min, y_min, x_max, y_max = range_coords
+            
+            # 计算区域宽度和高度
+            width = x_max - x_min
+            height = y_max - y_min
+            
+            # 生成x和y方向的随机偏移
+            x_offset = random.uniform(-offset, offset)
+            y_offset = random.uniform(-offset, offset)
+            
+            # 应用偏移，保持区域大小不变
+            new_range = [
+                x_min + x_offset,  # 新的x_min
+                y_min + y_offset,  # 新的y_min
+                x_max + x_offset,  # 新的x_max
+                y_max + y_offset   # 新的y_max
+            ]
+            
+            region_info['ranges'][i] = new_range
+    
+    return config
+
+

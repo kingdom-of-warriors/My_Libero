@@ -236,13 +236,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pos-sensitivity",
         type=float,
-        default=1.5,
+        default=1.2,
         help="How much to scale position user inputs",
     )
     parser.add_argument(
         "--rot-sensitivity",
         type=float,
-        default=1.0,
+        default=0.8,
         help="How much to scale rotation user inputs",
     )
     parser.add_argument(

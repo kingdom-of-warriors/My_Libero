@@ -75,6 +75,8 @@ class BDDLBaseDomain(SingleArmEnv):
         arena_type="table",
         scene_xml="scenes/libero_base_style.xml",
         scene_properties={},
+        modify=False,
+        offset=0.05,
         **kwargs,
     ):
         t0 = time.time()
@@ -122,7 +124,13 @@ class BDDLBaseDomain(SingleArmEnv):
         self.custom_asset_dir = os.path.abspath(os.path.join(DIR_PATH, "../assets"))
 
         self.bddl_file_name = bddl_file_name
+        self.offset = offset
         self.parsed_problem = BDDLUtils.robosuite_parse_problem(self.bddl_file_name)
+
+        self.modify = modify
+        # 是否修改初始状态
+        if self.modify:
+            self.parsed_problem = BDDLUtils.modify_initial_state(self.parsed_problem, self.offset)
 
         self.obj_of_interest = self.parsed_problem["obj_of_interest"]
 

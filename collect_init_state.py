@@ -11,7 +11,7 @@ mpl.rcParams["font.sans-serif"] = ["SimHei"]
 
 
 benchmark_dict = benchmark.get_benchmark_dict()
-task_suite_name = "lift_and_place" # can also choose libero_spatial, libero_object, etc.
+task_suite_name = "libero_object" # can also choose libero_spatial, libero_object, etc.
 task_suite = benchmark_dict[task_suite_name]()
 
 # retrieve a specific task
@@ -24,7 +24,7 @@ print(f"[info] retrieving task {task_id} from suite {task_suite_name}, the " + \
       f"language instruction is {task_description}, and the bddl file is {task_bddl_file}")
 
 # 创建保存路径
-save_dir = "/home/ljr/embodied/LIBERO/libero/libero/init_files/lift_and_place"
+save_dir = "/home/ljr/embodied/LIBERO/libero/libero/init_files/libero_object"
 save_filename = f"{task.bddl_file.split('.')[0]}.test_init"
 save_path = osp.join(save_dir, save_filename)
 
@@ -50,9 +50,9 @@ for seed in range(num_seeds):
     }
     env = OffScreenRenderEnv(**env_args)
     
-    # 设置种子并重置环境
-    env.seed(seed)
-    env.reset()
+    # # 设置种子并重置环境
+    # env.seed(seed)
+    # env.reset()
     
     # 获取当前状态
     current_state = env.sim.get_state().flatten()

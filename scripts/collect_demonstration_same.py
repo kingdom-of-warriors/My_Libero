@@ -255,6 +255,8 @@ if __name__ == "__main__":
 
     parser.add_argument("--vendor-id", type=int, default=0x256f)
     parser.add_argument("--product-id", type=int, default=0xc635)
+    parser.add_argument("--offset", type=float, default=0.1)
+    parser.add_argument("--modify", type=bool, default=False)
 
     args = parser.parse_args()
 
@@ -269,6 +271,7 @@ if __name__ == "__main__":
 
     assert os.path.exists(args.bddl_file)
     problem_info = BDDLUtils.get_problem_info(args.bddl_file)
+        
     # Check if we're using a multi-armed environment and use env_configuration argument if so
 
     # Create environment
@@ -290,6 +293,8 @@ if __name__ == "__main__":
         use_camera_obs=False,
         reward_shaping=True,
         control_freq=20,
+        modify=args.modify,
+        offset=args.offset,
     )
 
     # Wrap this with visualization wrapper

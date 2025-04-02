@@ -135,17 +135,20 @@ class ObjectState(BaseObjectState):
 
     def check_upside_down(self):
         """
-        Check if the object is upside down.
+        检查物体是否倒置。
         """
         geom_state = self.get_geom_state()
         quat = geom_state["quat"]
 
         rotation_matrix = transform_utils.quat2mat(quat)
-        up_vector = rotation_matrix[:, 1]
-        world_up = np.array([0, 0, 1])
-        angle = np.arccos(np.dot(up_vector, world_up))
+        up_vector = rotation_matrix[:, 0]
+        world_up = np.array([1, 0, 0])
+        
+        # 计算点积并确保在有效范围内 [-1, 1]
+        dot_product = np.clip(np.dot(up_vector, world_up), -1.0, 1.0)
+        angle = np.arccos(dot_product)
         angle_degrees = np.degrees(angle)
-
+        
         return angle_degrees > 170
 
 

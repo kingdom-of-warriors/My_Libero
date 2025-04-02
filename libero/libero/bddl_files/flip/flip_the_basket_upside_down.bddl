@@ -16,7 +16,7 @@
       (other_object_region_0
           (:target floor)
           (:ranges (
-              (0.17500000000000002 -0.225 0.225 -0.17500000000000002)
+              (0.125 -0.175 0.175 -0.125)
             )
           )
           (:yaw_rotation (
@@ -27,7 +27,7 @@
       (other_object_region_1
           (:target floor)
           (:ranges (
-              (-0.175 -0.225 -0.125 -0.17500000000000002)
+              (-0.175 -0.175 -0.125 -0.125)
             )
           )
           (:yaw_rotation (
@@ -38,7 +38,7 @@
       (other_object_region_2
           (:target floor)
           (:ranges (
-              (0.185 0.11500000000000002 0.235 0.165)
+              (0.125 0.125 0.175 0.175)
             )
           )
           (:yaw_rotation (

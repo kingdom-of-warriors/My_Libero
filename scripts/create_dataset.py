@@ -94,8 +94,8 @@ def main():
         ],
         reward_shaping=True,
         control_freq=20,
-        camera_heights=128,
-        camera_widths=128,
+        camera_heights=256,
+        camera_widths=256,
         camera_segmentations=None,
     )
 
